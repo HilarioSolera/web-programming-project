@@ -1,9 +1,3 @@
-¡Perfecto Hilario! 🚀
-Te dejo un **README completo, en inglés y de nivel profesional** para tu **Web Programming Project**. Está listo para que lo copies en tu `README.md`.
-
----
-
-```md
 # 🌐 Web Programming Project — ASP.NET MVC & RESTful API
 
 This project was developed as part of my Computer Engineering studies.  
