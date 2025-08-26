@@ -59,3 +59,36 @@ Run the WebApp:
 
 The API will be available at: https://localhost:5001/swagger
 The WebApp will be available at: https://localhost:5002
+
+## 📸 Screenshots
+
+### 🔐 API Documentation
+![Swagger UI](assets/Screenshot 2025-08-25 at 21-54-44 Swagger UI.png)
+
+### 🏠 Home Page
+![Home Page](assets/Screenshot 2025-08-25 at 21-52-18 Inicio - Proyecto3.png)
+
+### 👥 Customers
+- List  
+  ![Customers List](assets/Screenshot 2025-08-25 at 21-52-39 Listado de clientes - Proyecto3.png)  
+- Edit  
+  ![Edit Customer](assets/Screenshot 2025-08-25 at 21-53-24 Editar cliente - Proyecto3.png)
+
+### 👨‍💼 Employees
+- List  
+  ![Employees List](assets/Screenshot 2025-08-25 at 21-52-50 Listado de empleados - Proyecto3.png)  
+- Details  
+  ![Employee Details](assets/Screenshot 2025-08-25 at 21-53-33 Detalles del empleado - Proyecto3.png)
+
+### 🚗 Vehicles
+- List  
+  ![Vehicles List](assets/Screenshot 2025-08-25 at 21-52-57 Vehículos - Proyecto3.png)  
+- Delete  
+  ![Delete Vehicle](assets/Screenshot 2025-08-25 at 21-53-43 Eliminar vehículo - Proyecto3.png)
+
+### 🚿 Car Wash Services
+- Register  
+  ![Register Car Wash](assets/Screenshot 2025-08-25 at 21-54-00 Registrar lavado - Proyecto3.png)  
+- List  
+  ![Car Washes List](assets/Screenshot 2025-08-25 at 21-53-06 Listado de lavados - Proyecto3.png)
+
