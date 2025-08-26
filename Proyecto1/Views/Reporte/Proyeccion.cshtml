@@ -1,0 +1,63 @@
+﻿@model List<Modelos.DTOs.ClienteVehiculoProyeccionDTO>
+
+<h2 class="text-center">Proyección de Lavados</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No hay vehículos pendientes de agendar.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Último lavado</th>
+                <th>Fecha sugerida</th>
+                <th>Vehículo</th>
+                <th>Agendar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var urgente = item.FechaSugerida.Date <= DateTime.Today;
+
+                var fechaLavado = (item.UltimoLavado.HasValue && item.UltimoLavado.Value.Year > 1900)
+                ? item.UltimoLavado.Value.ToString("dd/MM/yyyy")
+                : "—";
+
+                var fechaSugerida = (item.FechaSugerida.Year > 1900)
+                ? item.FechaSugerida.ToString("dd/MM/yyyy")
+                : "—";
+
+                var asunto = Uri.EscapeDataString("Invitación para agendar lavado de vehículo");
+                var cuerpo = Uri.EscapeDataString($@"
+                Estimado/a {item.NombreCompleto},
+
+                Le recordamos que corresponde el lavado de su vehículo ({item.VehiculoPlaca} - {item.VehiculoDescripcion}) sugerido para el {fechaSugerida}.
+
+                Quedamos atentos para agendar su próxima visita.
+
+                Saludos cordiales,
+                Equipo de Mantenimiento Vehicular
+                ");
+
+                <tr class="@(urgente ? "table-warning" : "")">
+                    <td>@item.Identificacion</td>
+                    <td>@item.NombreCompleto</td>
+                    <td>@item.Correo</td>
+                    <td>@fechaLavado</td>
+                    <td>@fechaSugerida</td>
+                    <td>@item.VehiculoPlaca - @item.VehiculoDescripcion</td>
+                    <td>
+                        <a href="mailto:@item.Correo?subject=@asunto&body=@cuerpo"
+                           class="btn btn-success btn-sm">📩 Contactar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

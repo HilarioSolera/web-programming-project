@@ -1,0 +1,172 @@
+﻿@model Modelos.Lavado
+
+@{
+    ViewData["Title"] = "Editar lavado";
+    Layout = "_Layout";
+
+    // Manejo de mensajes al estilo de Editar empleado
+    string tipoMensaje = null;
+    string mensaje = null;
+
+    if (TempData["MensajeLavadoXExito"] is string exito)
+    {
+        tipoMensaje = "success";
+        mensaje = exito;
+    }
+    else if (TempData["MensajeLavadoXError"] is string error)
+    {
+        tipoMensaje = "danger";
+        mensaje = error;
+    }
+
+    var claseBootstrap = tipoMensaje switch
+    {
+        "success" => "alert-success",
+        "danger" => "alert-danger",
+        _ => "alert-info"
+    };
+
+    var icono = tipoMensaje switch
+    {
+        "success" => "fa-check-circle",
+        "danger" => "fa-exclamation-circle",
+        _ => "fa-info-circle"
+    };
+}
+
+<div class="lavados-container">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-edit me-2"></i>@ViewData["Title"]
+    </h2>
+
+    <!-- 🔔 Mensaje del sistema -->
+    @if (!string.IsNullOrWhiteSpace(mensaje))
+    {
+        <div class="alert @claseBootstrap alert-dismissible fade show text-center mx-auto w-75" role="alert">
+            <i class="fas @icono me-2"></i> @Html.Raw(mensaje)
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    }
+
+    <form asp-action="Edit" method="post" class="lavado-form">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3"></div>
+
+        <!-- Cliente -->
+        <div class="form-group mb-3">
+            <label asp-for="ClienteId" class="form-label">Cliente</label>
+            <select asp-for="ClienteId" asp-items="ViewBag.Clientes" class="form-control"></select>
+            <span asp-validation-for="ClienteId" class="text-danger"></span>
+        </div>
+
+        <!-- Vehículo -->
+        <div class="form-group mb-3">
+            <label asp-for="VehiculoId" class="form-label">Vehículo</label>
+            <select asp-for="VehiculoId" asp-items="ViewBag.Vehiculos" class="form-control"></select>
+            <span asp-validation-for="VehiculoId" class="text-danger"></span>
+        </div>
+
+        <!-- Empleado -->
+        <div class="form-group mb-3">
+            <label asp-for="EmpleadoId" class="form-label">Empleado</label>
+            <select asp-for="EmpleadoId" asp-items="ViewBag.Empleados" class="form-control"></select>
+            <span asp-validation-for="EmpleadoId" class="text-danger"></span>
+        </div>
+
+        <!-- Tipo de lavado -->
+        <div class="form-group mb-3">
+            <label asp-for="TipoLavado" class="form-label">Tipo de lavado</label>
+            <select asp-for="TipoLavado" id="tipoLavado" class="form-control">
+                <option value="">-- Seleccione --</option>
+                <option>Básico</option>
+                <option>Premium</option>
+                <option>Deluxe</option>
+                <option>La Joya</option>
+            </select>
+            <span asp-validation-for="TipoLavado" class="text-danger"></span>
+        </div>
+
+        <!-- Precio manual para La Joya -->
+        <div id="precioManualGroup" class="form-group mb-3" style="display:none;">
+            <label asp-for="Precio" class="form-label">Precio manual (La Joya)</label>
+            <input asp-for="Precio" id="precioManual" type="number" step="any" class="form-control" />
+            <span asp-validation-for="Precio" class="text-danger"></span>
+        </div>
+
+        <!-- Resumen de precios y detalles -->
+        <div class="mb-4">
+            <div class="card p-3 shadow-sm">
+                <strong>Precio sin IVA:</strong> <span id="precioSinIVA">₡0</span><br />
+                <strong>Precio con IVA (13%):</strong> <span id="precioConIVA">₡0</span><br />
+                <strong>Detalles:</strong> <span id="descripcionLavado">Seleccione un tipo de lavado</span>
+            </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="form-group mb-3">
+            <label asp-for="Estado" class="form-label">Estado</label>
+            <select asp-for="Estado" class="form-control">
+                <option value="">-- Seleccione estado --</option>
+                <option>En proceso</option>
+                <option>Facturado</option>
+                <option>Agendado</option>
+            </select>
+            <span asp-validation-for="Estado" class="text-danger"></span>
+        </div>
+
+        <!-- Fecha del lavado -->
+        <div class="form-group mb-3">
+            <label asp-for="Fecha" class="form-label">Fecha del lavado</label>
+            <input asp-for="Fecha" type="date" class="form-control" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-1"></i> Guardar cambios
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const precios = {
+            "Básico": 8000,
+            "Premium": 12000,
+            "Deluxe": 20000,
+            "La Joya": null
+        };
+        const descripciones = {
+            "Básico": "Lavado, aspirado y encerado.",
+            "Premium": "Lavado, aspirado, encerado y limpieza profunda.",
+            "Deluxe": "Incluye Deluxe más corrección de pintura.",
+            "La Joya": "Tratamiento especial personalizado."
+        };
+
+        function actualizarResumen() {
+            const tipo = document.getElementById('tipoLavado').value;
+            const manualGroup = document.getElementById('precioManualGroup');
+            const precioManualInput = document.getElementById('precioManual');
+
+            const base = tipo === 'La Joya'
+                ? (parseFloat(precioManualInput.value) || 0)
+                : (precios[tipo] || 0);
+
+            manualGroup.style.display = (tipo === 'La Joya') ? 'block' : 'none';
+            document.getElementById('precioSinIVA').textContent = `₡${base.toLocaleString()}`;
+            document.getElementById('precioConIVA').textContent = `₡${(base * 1.13).toFixed(2).toLocaleString()}`;
+            document.getElementById('descripcionLavado').textContent = descripciones[tipo] || 'Seleccione un tipo de lavado';
+        }
+
+        document.getElementById('tipoLavado').addEventListener('change', actualizarResumen);
+        document.getElementById('precioManual')?.addEventListener('input', actualizarResumen);
+        window.addEventListener('DOMContentLoaded', actualizarResumen);
+    </script>
+}

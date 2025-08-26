@@ -1,0 +1,98 @@
+﻿@model Modelos.Lavado
+
+@{
+    ViewData["Title"] = "Eliminar lavado";
+    Layout = "_Layout";
+}
+
+<div class="lavados-container">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-trash-alt me-2"></i>Eliminar lavado
+    </h2>
+
+    <h4 class="text-center text-danger mb-4">
+        ¿Está seguro de que desea eliminar este lavado?
+    </h4>
+
+    <!-- 📋 Datos del lavado -->
+    <div class="card shadow-sm w-75 mx-auto p-4 border-danger">
+        <dl class="row">
+            <dt class="col-sm-4 text-end fw-bold">Tipo de lavado</dt>
+            <dd class="col-sm-8">@Model.TipoLavado</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Precio</dt>
+            <dd class="col-sm-8">
+                @(Model.Precio.HasValue ? $"₡{Model.Precio.Value:N0}" : "Sin definir")
+            </dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Estado</dt>
+            <dd class="col-sm-8">@Model.Estado</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Fecha</dt>
+            <dd class="col-sm-8">@Model.Fecha.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Cliente</dt>
+            <dd class="col-sm-8">
+                @{
+                    if (Model.Cliente != null)
+                    {
+                        <strong>@Model.Cliente.NombreCompleto</strong>
+                
+                        <br />
+                        <span class="text-muted">Cédula: @Model.Cliente.Identificacion</span>
+                    }
+                    else
+                    {
+                        <em class="text-muted">ID: @Model.ClienteId</em>
+                    }
+                }
+            </dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Vehículo</dt>
+            <dd class="col-sm-8">
+                @{
+                    if (Model.Vehiculo != null)
+                    {
+                        <strong>@Model.Vehiculo.Marca @Model.Vehiculo.Modelo</strong>
+                
+                        <br />
+                        <span class="text-muted">Placa: @Model.Vehiculo.Placa</span>
+                    }
+                    else
+                    {
+                        <em class="text-muted">ID: @Model.VehiculoId</em>
+                    }
+                }
+            </dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Empleado</dt>
+            <dd class="col-sm-8">
+                @{
+                    if (Model.Empleado != null)
+                    {
+                        <strong>@Model.Empleado.NombreCompleto</strong>
+                
+                        <br />
+                        <span class="text-muted">Cédula: @Model.Empleado.Identificacion</span>
+                    }
+                    else
+                    {
+                        <em class="text-muted">Sin asignar</em>
+                    }
+                }
+            </dd>
+        </dl>
+    </div>
+
+    <!-- 🧼 Botones de acción -->
+    <form asp-action="Delete" method="post" class="d-flex justify-content-center gap-3 mt-4">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-outline-danger">
+            <i class="fas fa-trash-alt me-1"></i> Confirmar eliminación
+        </button>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Cancelar
+        </a>
+    </form>
+</div>

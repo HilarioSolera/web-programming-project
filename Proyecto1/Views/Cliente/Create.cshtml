@@ -1,0 +1,139 @@
+﻿@model Modelos.Cliente
+
+@{
+    ViewData["Title"] = "Registrar cliente";
+    Layout = "_Layout";
+
+    // Configuración de mensajes (éxito o error) al estilo de Empleado
+    string tipo = null;
+    string mensaje = null;
+
+    if (TempData["MensajeClienteXExito"] is string exito)
+    {
+        tipo = "success";
+        mensaje = exito;
+    }
+    else if (TempData["MensajeClienteXError"] is string error)
+    {
+        tipo = "danger";
+        mensaje = error;
+    }
+
+    var claseBootstrap = tipo switch
+    {
+        "success" => "alert-success",
+        "danger" => "alert-danger",
+        _ => "alert-info"
+    };
+
+    var icono = tipo switch
+    {
+        "success" => "fa-check-circle",
+        "danger" => "fa-exclamation-circle",
+        _ => "fa-info-circle"
+    };
+}
+
+<div class="clientes-container">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-user-plus me-2"></i>@ViewData["Title"]
+    </h2>
+
+    <!-- Mensaje del sistema -->
+    @if (!string.IsNullOrWhiteSpace(mensaje))
+    {
+        <div class="alert @claseBootstrap alert-dismissible fade show text-center mx-auto w-75" role="alert">
+            <i class="fas @icono me-2"></i> @Html.Raw(mensaje)
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    }
+
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <!-- Identificación -->
+        <div class="mb-3">
+            <label asp-for="Identificacion" class="form-label"></label>
+            <input asp-for="Identificacion" class="form-control" />
+            <span asp-validation-for="Identificacion" class="text-danger"></span>
+        </div>
+
+        <!-- Nombre completo -->
+        <div class="mb-3">
+            <label asp-for="NombreCompleto" class="form-label"></label>
+            <input asp-for="NombreCompleto" class="form-control" />
+            <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+        </div>
+
+        <!-- Provincia -->
+        <div class="mb-3">
+            <label asp-for="Provincia" class="form-label"></label>
+            <input asp-for="Provincia" class="form-control" />
+            <span asp-validation-for="Provincia" class="text-danger"></span>
+        </div>
+
+        <!-- Cantón -->
+        <div class="mb-3">
+            <label asp-for="Canton" class="form-label"></label>
+            <input asp-for="Canton" class="form-control" />
+            <span asp-validation-for="Canton" class="text-danger"></span>
+        </div>
+
+        <!-- Distrito -->
+        <div class="mb-3">
+            <label asp-for="Distrito" class="form-label"></label>
+            <input asp-for="Distrito" class="form-control" />
+            <span asp-validation-for="Distrito" class="text-danger"></span>
+        </div>
+
+        <!-- Dirección exacta -->
+        <div class="mb-3">
+            <label asp-for="DireccionExacta" class="form-label"></label>
+            <textarea asp-for="DireccionExacta" class="form-control"></textarea>
+            <span asp-validation-for="DireccionExacta" class="text-danger"></span>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="mb-3">
+            <label asp-for="Telefono" class="form-label"></label>
+            <input asp-for="Telefono" class="form-control" />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
+
+        <!-- Correo -->
+        <div class="mb-3">
+            <label asp-for="Correo" class="form-label"></label>
+            <input asp-for="Correo" type="email" class="form-control" />
+            <span asp-validation-for="Correo" class="text-danger"></span>
+        </div>
+
+        <!-- Preferencia de lavado -->
+        <div class="mb-3">
+            <label asp-for="PreferenciaLavado" class="form-label"></label>
+            <select asp-for="PreferenciaLavado" class="form-control">
+                <option value="">Seleccione una opción</option>
+                <option>Semanal</option>
+                <option>Quincenal</option>
+                <option>Mensual</option>
+                <option>Otro</option>
+            </select>
+            <span asp-validation-for="PreferenciaLavado" class="text-danger"></span>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-1"></i> Registrar
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

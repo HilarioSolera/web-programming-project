@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+    Layout = "_Layout";
+    ViewData["BodyClass"] = "fondo-inicio";
+}
+
+<div class="slider-fondo">
+    <div class="slide active" style="background-image: url('/img/inicio-lavado.png');"></div>
+    <div class="slide" style="background-image: url('/img/inicio-lavado2.png');"></div>
+    <div class="slide" style="background-image: url('/img/inicio-lavado3.png');"></div>
+
+    <div class="hero-contenido custom-hero-top">
+        <div class="hero-titulo">
+            <h1>
+
+                <i class="fas fa-shower"></i>
+                ¡Se lo Chaneo a domicilio!
+                <i class="fas fa-sparkles"></i>
+            </h1>
+        </div>
+
+
+        <div class="dashboard-botones mt-4">
+            <a asp-controller="Cliente" asp-action="Index" class="dash-btn dash-btn-big">
+                <i class="fas fa-user fa-lg"></i> Clientes
+            </a>
+            <a asp-controller="Empleado" asp-action="Index" class="dash-btn dash-btn-big">
+                <i class="fas fa-user-tie fa-lg"></i> Empleados
+            </a>
+            <a asp-controller="Vehiculo" asp-action="Index" class="dash-btn dash-btn-big">
+                <i class="fas fa-car fa-lg"></i> Vehículos
+            </a>
+            <a asp-controller="Lavado" asp-action="Index" class="dash-btn dash-btn-big">
+                <i class="fas fa-soap fa-lg"></i> Lavados
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const slides = document.querySelectorAll(".slide");
+        let current = 0;
+
+        function showNextSlide() {
+            slides[current].classList.remove("active");
+            current = (current + 1) % slides.length;
+            slides[current].classList.add("active");
+        }
+
+        setInterval(showNextSlide, 5000);
+    </script>
+}

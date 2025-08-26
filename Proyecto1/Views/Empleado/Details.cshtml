@@ -1,0 +1,100 @@
+﻿@model Modelos.Empleado
+
+@{
+    ViewData["Title"] = "Detalles del empleado";
+    Layout = "_Layout";
+}
+
+<div class="empleados-container">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-user-tag me-2"></i>Detalles del empleado
+    </h2>
+
+    <div class="table-responsive w-75 mx-auto">
+        <table class="table table-bordered table-striped align-middle shadow-sm">
+            <tbody>
+                <tr>
+                    <th class="table-primary text-end px-4">Identificación</th>
+                    <td class="px-3">@Model.Identificacion</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Nombre completo</th>
+                    <td class="px-3">@Model.NombreCompleto</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Puesto</th>
+                    <td class="px-3">@Model.Puesto</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Teléfono</th>
+                    <td class="px-3">@Model.Telefono</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Correo electrónico</th>
+                    <td class="px-3">@Model.Correo</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Fecha de nacimiento</th>
+                    <td class="px-3">
+                        @(Model.FechaNacimiento.HasValue
+                                                ? Model.FechaNacimiento.Value.ToString("dd/MM/yyyy")
+                                                : "—")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Fecha de ingreso</th>
+                    <td class="px-3">
+                        @(Model.FechaIngreso.HasValue
+                                                ? Model.FechaIngreso.Value.ToString("dd/MM/yyyy")
+                                                : "—")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Salario por día</th>
+                    <td class="px-3">
+                        @(Model.SalarioPorDia.HasValue
+                                                ? "₡" + Model.SalarioPorDia.Value.ToString("N2")
+                                                : "—")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Días de vacaciones</th>
+                    <td class="px-3">
+                        @(Model.DiasVacaciones.HasValue
+                                                ? Model.DiasVacaciones.Value.ToString()
+                                                : "—")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Fecha de retiro</th>
+                    <td class="px-3">
+                        @(Model.FechaRetiro.HasValue
+                                                ? Model.FechaRetiro.Value.ToString("dd/MM/yyyy")
+                                                : "—")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Monto de liquidación</th>
+                    <td class="px-3">
+                        @(Model.MontoLiquidacion.HasValue
+                                                ? "₡" + Model.MontoLiquidacion.Value.ToString("N2")
+                                                : "—")
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">
+            <i class="fas fa-edit me-1"></i> Editar
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+            <i class="fas fa-trash-alt me-1"></i> Eliminar
+        </a>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Volver
+        </a>
+    </div>
+</div>

@@ -1,0 +1,171 @@
+﻿@model Modelos.Lavado
+
+@{
+    ViewData["Title"] = "Detalles del lavado";
+    Layout = "_Layout";
+
+    // Extraer datos de Cliente desde ViewBag si el modelo no los tiene
+    string clienteNombre = null;
+    string clienteCedula = null;
+    if (Model.Cliente != null)
+    {
+        clienteNombre = Model.Cliente.NombreCompleto;
+        clienteCedula = Model.Cliente.Identificacion;
+    }
+    else if (ViewBag.ClienteInfo != null)
+    {
+        var info = ViewBag.ClienteInfo.ToString();
+        var parts = info.Split('(');
+        clienteNombre = parts[0].Trim();
+        if (parts.Length > 1) clienteCedula = parts[1].Trim(' ', ')');
+    }
+
+    // Extraer datos de Vehículo desde ViewBag si el modelo no los tiene.
+    // Formato esperado en ViewBag: "Placa (Marca Modelo)"
+    string vehiculoMarcaModelo = null;
+    string vehiculoPlaca = null;
+    if (Model.Vehiculo != null)
+    {
+        vehiculoMarcaModelo = $"{Model.Vehiculo.Marca} {Model.Vehiculo.Modelo}";
+        vehiculoPlaca = Model.Vehiculo.Placa;
+    }
+    else if (ViewBag.VehiculoInfo != null)
+    {
+        var info = ViewBag.VehiculoInfo.ToString();
+        var parts = info.Split('(');
+        vehiculoPlaca = parts[0].Trim(); // la placa viene antes del paréntesis
+        if (parts.Length > 1) vehiculoMarcaModelo = parts[1].Trim(' ', ')');
+    }
+
+    // Extraer datos de Empleado desde ViewBag si el modelo no los tiene.
+    // Formato esperado en ViewBag: "Nombre Completo (Puesto)"
+    string empleadoNombre = null;
+    string empleadoCedula = null;
+    string empleadoPuesto = null;
+    if (Model.Empleado != null)
+    {
+        empleadoNombre = Model.Empleado.NombreCompleto;
+        empleadoCedula = Model.Empleado.Identificacion;
+    }
+    else if (ViewBag.EmpleadoInfo != null)
+    {
+        var info = ViewBag.EmpleadoInfo.ToString();
+        var parts = info.Split('(');
+        empleadoNombre = parts[0].Trim();
+        // No hay cédula en EmpleadoInfo, solo el puesto
+        if (parts.Length > 1) empleadoPuesto = parts[1].Trim(' ', ')');
+    }
+}
+
+<div class="lavados-container">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-hand-sparkles me-2"></i>Detalles del lavado
+    </h2>
+
+    <div class="table-responsive w-75 mx-auto mb-4">
+        <table class="table table-bordered table-hover table-striped text-start align-middle shadow-sm">
+            <tbody>
+                <tr>
+                    <th class="table-primary text-end px-4">Tipo de lavado</th>
+                    <td class="px-3">@Model.TipoLavado</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Precio sin IVA</th>
+                    <td class="px-3">
+                        @(Model.Precio.HasValue ? $"₡{Model.Precio.Value:N2}" : "Sin definir")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Precio con IVA</th>
+                    <td class="px-3">
+                        @(Model.Precio.HasValue ? $"₡{Model.PrecioConIVA:N2}" : "Sin definir")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Estado</th>
+                    <td class="px-3">@Model.Estado</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Fecha</th>
+                    <td class="px-3">@Model.Fecha.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Cliente</th>
+                    <td class="px-3">
+                        @if (!string.IsNullOrEmpty(clienteNombre))
+                        {
+                            <strong>@clienteNombre</strong>
+                        
+                            <br />
+                            @if (!string.IsNullOrEmpty(clienteCedula))
+                            {
+                                <span class="text-muted">Cédula: @clienteCedula</span>
+                            }
+                        }
+                        else
+                        {
+                            <em class="text-muted">ID: @Model.ClienteId</em>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Vehículo</th>
+                    <td class="px-3">
+                        @if (!string.IsNullOrEmpty(vehiculoMarcaModelo))
+                        {
+                            <strong>@vehiculoMarcaModelo</strong>
+                        
+                            <br />
+                            <span class="text-muted">Placa: @vehiculoPlaca</span>
+                        }
+                        else if (!string.IsNullOrEmpty(vehiculoPlaca))
+                        {
+                            <!-- Si solo hay placa -->
+                            <span class="text-muted">Placa: @vehiculoPlaca</span>
+                        }
+                        else
+                        {
+                            <em class="text-muted">ID: @Model.VehiculoId</em>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-end px-4">Empleado</th>
+                    <td class="px-3">
+                        @if (!string.IsNullOrEmpty(empleadoNombre))
+                        {
+                            <strong>@empleadoNombre</strong>
+                        
+                            <br />
+                            @if (!string.IsNullOrEmpty(empleadoCedula))
+                            {
+                                <span class="text-muted">Cédula: @empleadoCedula</span>
+                            }
+                            else if (!string.IsNullOrEmpty(empleadoPuesto))
+                            {
+                                <!-- Si no hay cédula, mostrar el puesto -->
+                                <span class="text-muted">Puesto: @empleadoPuesto</span>
+                            }
+                        }
+                        else
+                        {
+                            <em class="text-muted">Sin asignar</em>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">
+            <i class="fas fa-edit me-1"></i> Editar
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+            <i class="fas fa-trash-alt me-1"></i> Eliminar
+        </a>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Volver
+        </a>
+    </div>
+</div>

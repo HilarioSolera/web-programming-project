@@ -1,0 +1,287 @@
+﻿/* Reset y estilo general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+    /* Fondo para el inicio */
+    body.fondo-inicio {
+        background: none;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+/* Slider */
+.slider-fondo {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+    .slider-fondo .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 2s ease-in-out;
+        z-index: 0;
+        filter: brightness(0.9); /* <<< añade esta línea para que la imagen se vea más oscura/transparente */
+    }
+
+        .slider-fondo .slide.active {
+            opacity: 1;
+        }
+
+/* Animación de fondo */
+@keyframes pulseBackground {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Contenido centrado en el slider */
+.hero-contenido {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 0 20px;
+}
+
+/* Título sobre imagen */
+.hero-texto h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+    color: white;
+}
+
+/* Botones grandes del dashboard */
+.dashboard-botones {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dash-btn {
+    background-color: #ffffff;
+    color: #3498db;
+    padding: 15px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    min-width: 180px;
+    text-align: center;
+}
+
+    .dash-btn i {
+        margin-right: 10px;
+        color: #3498db;
+        transition: transform 0.3s ease;
+    }
+
+    .dash-btn:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(52, 152, 219, 0.6);
+        background-color: #eaf6ff;
+    }
+
+        .dash-btn:hover i {
+            transform: scale(1.2);
+            color: #1f639b;
+        }
+
+/* Navbar */
+nav.navbar {
+    position: relative;
+    z-index: 1000;
+}
+
+    nav.navbar .nav-link {
+        color: white !important;
+        font-family: 'Segoe UI', sans-serif;
+        font-weight: 500;
+        margin-right: 10px;
+        transition: all 0.3s ease-in-out;
+        padding: 8px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+
+        nav.navbar .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: #ffffff !important;
+        }
+
+.nav-link i {
+    margin-right: 8px;
+    font-size: 1rem;
+}
+
+/* Contenedores generales */
+.clientes-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 15px;
+}
+
+.busqueda-clientes {
+    margin-bottom: 40px;
+}
+
+.cliente-input {
+    width: 500px;
+    max-width: 90vw;
+    font-size: 1.1rem;
+    height: 45px;
+}
+
+.busqueda-clientes button,
+.busqueda-clientes a.btn {
+    height: 45px;
+    padding: 0 20px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table th,
+.table td {
+    vertical-align: middle !important;
+}
+
+/* Menú alternativo (si lo usas) */
+.menu-btn {
+    display: block;
+    background-color: #ffffff;
+    border: 2px solid #3498db;
+    border-radius: 12px;
+    padding: 30px 15px;
+    color: #3498db;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .menu-btn:hover {
+        background-color: #3498db;
+        color: white;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+.hero-titulo h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 4rem;
+    font-weight: 600;
+    color: white;
+    animation: animarColorTitulo 5s ease-in-out infinite;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+
+.hero-titulo i {
+    font-size: 2.5rem;
+    color: #00c6ff;
+    filter: drop-shadow(0 0 4px rgba(0, 198, 255, 0.6));
+}
+
+
+.custom-hero-top {
+    top: 35%; /* sube el bloque más arriba */
+}
+
+/* Botones más grandes y cuadrados */
+.dash-btn-big {
+    padding: 20px 40px;
+    font-size: 1.4rem;
+    border-radius: 6px; /* menos redondo */
+    min-width: 220px;
+}
+/* Espuma animada sobre el título */
+.hero-titulo {
+    position: relative;
+    display: inline-block;
+}
+
+    .hero-titulo::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.8);
+        width: 120%;
+        height: 50px;
+        background: url('/img/espuma.png') no-repeat center;
+        background-size: contain;
+        opacity: 0;
+        animation: mostrarEspuma 2s ease-out forwards;
+        animation-delay: 1s;
+    }
+
+@keyframes mostrarEspuma {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.5) translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) translateY(0);
+    }
+}
+
+@keyframes animarColorTitulo {
+    0% {
+        color: #ffffff;
+    }
+
+    50% {
+        color: #3498db;
+    }
+
+    100% {
+        color: #ffffff;
+    }
+}

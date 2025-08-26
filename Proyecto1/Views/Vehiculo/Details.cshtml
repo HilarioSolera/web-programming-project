@@ -1,0 +1,56 @@
+﻿@model Modelos.Vehiculo
+
+@{
+    ViewData["Title"] = "Detalles del Vehículo";
+    Layout = "_Layout";
+}
+
+<div class="vehiculos-container">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-car me-2"></i>@ViewData["Title"]
+    </h2>
+
+    <!-- Tabla de datos -->
+    <div class="table-responsive w-75 mx-auto mb-4">
+        <table class="table table-bordered table-hover table-striped text-center align-middle shadow-sm">
+            <tbody>
+                <tr><th class="table-primary">Placa</th><td>@Model.Placa</td></tr>
+                <tr><th class="table-primary">Marca</th><td>@Model.Marca</td></tr>
+                <tr><th class="table-primary">Modelo</th><td>@Model.Modelo</td></tr>
+                <tr><th class="table-primary">Color</th><td>@Model.Color</td></tr>
+                <tr><th class="table-primary">Año</th><td>@Model.Anio</td></tr>
+                <tr><th class="table-primary">Tracción</th><td>@Model.Traccion</td></tr>
+                <tr><th class="table-primary">NanoCerámico</th><td>@(Model.TratamientoNanoCeramico ? "Sí" : "No")</td></tr>
+                <tr><th class="table-primary">Última Atención</th><td>@(Model.UltimaAtencion?.ToString("dd/MM/yyyy") ?? "—")</td></tr>
+                <tr>
+                    <th class="table-primary">Cliente</th>
+                    <td>
+                        @if (Model.Cliente != null)
+                        {
+                            <strong>@Model.Cliente.NombreCompleto</strong>
+                            <br />
+                            <span class="text-muted">Cédula: @Model.Cliente.Identificacion</span>
+                        }
+                        else
+                        {
+                            <em class="text-muted">Cliente no cargado</em>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-center gap-3">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">
+            <i class="fas fa-edit me-1"></i> Editar
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+            <i class="fas fa-trash-alt me-1"></i> Eliminar
+        </a>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Volver
+        </a>
+    </div>
+</div>

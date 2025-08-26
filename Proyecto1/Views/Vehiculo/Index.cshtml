@@ -1,0 +1,120 @@
+﻿@model List<Modelos.Vehiculo>
+
+@{
+    ViewData["Title"] = "Vehículos";
+    Layout = "_Layout";
+
+    string modulo = "Vehiculo";
+    string tipo = null;
+    string mensaje = null;
+
+    if (TempData[$"Mensaje{modulo}XExito"] is string msgExito)
+    {
+        tipo = "success";
+        mensaje = msgExito;
+    }
+    else if (TempData[$"Mensaje{modulo}XError"] is string msgError)
+    {
+        tipo = "danger";
+        mensaje = msgError;
+    }
+
+    var icono = tipo switch
+    {
+        "success" => "fa-check-circle",
+        "danger" => "fa-exclamation-circle",
+        _ => "fa-info-circle"
+    };
+}
+
+<div class="vehiculos-container">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-car me-2"></i>Vehículos registrados
+    </h2>
+
+    <!-- 🔔 Mensaje global del sistema -->
+    @if (!string.IsNullOrWhiteSpace(mensaje))
+    {
+        <div class="alert alert-@tipo alert-dismissible fade show text-center mx-auto w-75" role="alert">
+            <i class="fas @icono me-2"></i> @mensaje
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    }
+
+    <!-- ➕ Botón registrar -->
+    <div class="text-center mb-4">
+        <a asp-action="Create" class="btn btn-success btn-lg">
+            <i class="fas fa-plus-circle me-2"></i>Registrar vehículo
+        </a>
+    </div>
+
+    <!-- 🔍 Buscador -->
+    <form asp-action="Index" method="get" class="busqueda-vehiculos mb-5 d-flex justify-content-center gap-3">
+        <input type="text" name="filtro" class="form-control w-50"
+               placeholder="Buscar por placa, marca o cliente..."
+               value="@Context.Request.Query["filtro"]" />
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search me-1"></i>Buscar
+        </button>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-times-circle me-1"></i>Limpiar
+        </a>
+    </form>
+
+    <!-- 📋 Tabla de vehículos -->
+    <div class="table-responsive">
+        @if (Model is not null && Model.Any())
+        {
+            <table class="table table-bordered table-hover table-striped text-center align-middle shadow-sm">
+                <thead class="table-primary position-sticky top-0">
+                    <tr>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Color</th>
+                        <th>Año</th>
+                        <th>Tracción</th>
+                        <th>Cliente</th>
+                        <th>Cédula</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vehiculo in Model)
+                    {
+                        <tr>
+                            <td>@vehiculo.Placa</td>
+                            <td>@vehiculo.Marca</td>
+                            <td>@vehiculo.Modelo</td>
+                            <td>@vehiculo.Color</td>
+                            <td>@vehiculo.Anio</td>
+                            <td>@vehiculo.Traccion</td>
+                            <td>@vehiculo.Cliente?.NombreCompleto</td>
+                            <td>@vehiculo.Cliente?.Identificacion</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@vehiculo.Id"
+                                   class="btn btn-outline-info btn-sm me-1" title="Ver detalles">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@vehiculo.Id"
+                                   class="btn btn-outline-warning btn-sm me-1" title="Editar vehículo">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@vehiculo.Id"
+                                   class="btn btn-outline-danger btn-sm" title="Eliminar vehículo">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle me-2"></i> No hay vehículos registrados.
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,105 @@
+﻿@model Modelos.Empleado
+
+@{
+    ViewData["Title"] = "Eliminar empleado";
+    Layout = "_Layout";
+
+    string modulo = "Empleado";
+    string tipo = null;
+    string mensaje = null;
+
+    foreach (var clave in TempData.Keys)
+    {
+        if (clave.StartsWith($"Mensaje{modulo}X") && TempData[clave] is string txt)
+        {
+            var partes = clave.Split('X');
+            if (partes.Length >= 3)
+            {
+                tipo = partes[^1];
+                mensaje = txt;
+                break;
+            }
+        }
+    }
+
+    var claseBootstrap = tipo?.ToLower() switch
+    {
+        "exito" => "alert-success",
+        "error" => "alert-danger",
+        _ => "alert-info"
+    };
+
+    var icono = tipo?.ToLower() switch
+    {
+        "exito" => "fa-check-circle",
+        "error" => "fa-exclamation-circle",
+        _ => "fa-info-circle"
+    };
+}
+
+<div class="empleados-container">
+    <h2 class="text-center mb-4">
+        <i class="fas fa-user-minus me-2"></i>Eliminar empleado
+    </h2>
+
+    <!-- 🔔 Mensaje visual del sistema -->
+    @if (!string.IsNullOrWhiteSpace(mensaje))
+    {
+        <div class="alert @claseBootstrap alert-dismissible fade show text-center mx-auto w-75" role="alert">
+            <i class="fas @icono me-2"></i> @Html.Raw(mensaje)
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    }
+
+    <h4 class="text-center mb-4 text-danger">
+        ¿Estás seguro de que deseas eliminar este registro?
+    </h4>
+
+    <!-- Datos del empleado -->
+    <div class="card shadow-sm w-75 mx-auto p-4 border-danger">
+        <dl class="row">
+            <dt class="col-sm-4 text-end fw-bold">Identificación</dt>
+            <dd class="col-sm-8">@Model.Identificacion</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Nombre completo</dt>
+            <dd class="col-sm-8">@Model.NombreCompleto</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Puesto</dt>
+            <dd class="col-sm-8">@Model.Puesto</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Teléfono</dt>
+            <dd class="col-sm-8">@Model.Telefono</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Correo electrónico</dt>
+            <dd class="col-sm-8">@Model.Correo</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Fecha de ingreso</dt>
+            <dd class="col-sm-8">@Model.FechaIngreso?.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Fecha de retiro</dt>
+            <dd class="col-sm-8">@Model.FechaRetiro?.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Salario por día</dt>
+            <dd class="col-sm-8">
+                @(Model.SalarioPorDia.HasValue ? "₡" + Model.SalarioPorDia.Value.ToString("N2") : "")
+            </dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Monto de liquidación</dt>
+            <dd class="col-sm-8">
+                @(Model.MontoLiquidacion.HasValue ? "₡" + Model.MontoLiquidacion.Value.ToString("N2") : "")
+            </dd>
+        </dl>
+    </div>
+
+    <!-- Botones de acción -->
+    <form asp-action="Delete" method="post" class="d-flex justify-content-center gap-3 mt-4">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-outline-danger">
+            <i class="fas fa-trash-alt me-1"></i> Confirmar eliminación
+        </button>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Cancelar
+        </a>
+    </form>
+</div>
