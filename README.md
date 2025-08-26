@@ -24,3 +24,8 @@ It consists of an **ASP.NET MVC application** that consumes a **RESTful API**, i
 ---
 
 ## 📂 Project Structure
+/src
+WebApp/ -> ASP.NET MVC frontend
+Api/ -> RESTful API
+Core/ -> Entities, DTOs, Interfaces
+Infrastructure/ -> EF Core, Migrations, Repositories
