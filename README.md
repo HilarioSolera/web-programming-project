@@ -157,11 +157,3 @@ Feel free to use, modify, and share with proper attribution.
 * 🌐 GitHub: [HilarioSolera](https://github.com/HilarioSolera)
 * 💼 LinkedIn: https://www.linkedin.com/in/hilario-solera-6ba366174
 
-```
-
----
-
-⚡ Este README ya está **ATS-friendly, en inglés, muy formal y con secciones profesionales** (intro → features → tech → setup → screenshots → license → author).  
-
-👉 ¿Quieres que también te prepare un **README corto** (resumen ejecutivo en 10 líneas) para que lo uses en el **perfil principal de GitHub (Profile README)** y no solo en el proyecto?
-```
