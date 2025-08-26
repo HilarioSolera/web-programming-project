@@ -29,3 +29,33 @@ WebApp/ -> ASP.NET MVC frontend
 Api/ -> RESTful API
 Core/ -> Entities, DTOs, Interfaces
 Infrastructure/ -> EF Core, Migrations, Repositories
+
+
+---
+
+## ⚙️ How to Run
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/web-programming-project.git
+
+    Configure the database connection string in:
+
+Api/appsettings.json
+WebApp/appsettings.json
+
+Apply migrations:
+
+dotnet ef database update
+
+Run the API:
+
+cd src/Api
+dotnet run
+
+Run the WebApp:
+
+    cd src/WebApp
+    dotnet run
+
+The API will be available at: https://localhost:5001/swagger
+The WebApp will be available at: https://localhost:5002
